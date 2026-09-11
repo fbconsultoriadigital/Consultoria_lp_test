@@ -1,3 +1,7 @@
+/* ========================================
+   MENU MOBILE
+======================================== */
+
 const menuToggle = document.querySelector('#menu-toggle');
 const mainNav = document.querySelector('#main-nav');
 
@@ -19,7 +23,7 @@ if (menuToggle && mainNav) {
 
   });
 
-  mainNav.querySelectorAll('a').forEach(link => {
+  mainNav.querySelectorAll('a').forEach((link) => {
 
     link.addEventListener('click', () => {
 
@@ -40,3 +44,32 @@ if (menuToggle && mainNav) {
   });
 
 }
+
+
+/* ========================================
+   RASTREAMENTO DE CTAs - WHATSAPP
+======================================== */
+
+const whatsappCTAs = document.querySelectorAll('[data-cta]');
+
+whatsappCTAs.forEach((cta) => {
+
+  cta.addEventListener('click', () => {
+
+    const ctaPosition = cta.dataset.cta;
+
+    // Debug temporário
+    console.log('WhatsApp CTA:', ctaPosition);
+
+    // Data Layer preparada para GTM / GA4
+    window.dataLayer = window.dataLayer || [];
+
+    window.dataLayer.push({
+      event: 'whatsapp_click',
+      cta_position: ctaPosition,
+      page_location: window.location.href
+    });
+
+  });
+
+});
