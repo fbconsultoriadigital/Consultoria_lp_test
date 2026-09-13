@@ -270,6 +270,8 @@ a {
 
 .section {
   padding: 110px 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 700px;
 }
 
 .section-light {
