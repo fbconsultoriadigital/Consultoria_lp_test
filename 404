@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Página não encontrada | Filipe Bueno Consultoria</title>
+
+  <meta
+    name="description"
+    content="A página que você tentou acessar não foi encontrada. Volte para a Filipe Bueno Consultoria ou entre em contato."
+  >
+
+  <!-- Não queremos páginas de erro indexadas -->
+  <meta name="robots" content="noindex, follow">
+
+  <!-- CSS principal do site -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    /* =========================
+       PÁGINA 404
+       ========================= */
+
+    .error-page {
+      min-height: calc(100vh - 80px);
+      background:
+        radial-gradient(
+          circle at 78% 45%,
+          rgba(53, 93, 105, 0.08),
+          transparent 32%
+        ),
+        #f6f8f8;
+    }
+
+    .error-hero {
+      min-height: 660px;
+      display: flex;
+      align-items: center;
+      padding: 90px 0;
+    }
+
+    .error-container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .error-label {
+      margin: 0 0 26px;
+
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+
+      color: #355d69;
+    }
+
+    .error-title {
+      margin: 0;
+
+      max-width: 620px;
+
+      font-size: clamp(54px, 6vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+
+      color: #18343d;
+    }
+
+    .error-description {
+      max-width: 590px;
+      margin: 30px 0 0;
+
+      font-size: 20px;
+      line-height: 1.55;
+
+      color: #62767d;
+    }
+
+    .error-description + .error-description {
+      margin-top: 20px;
+    }
+
+    .error-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      margin-top: 34px;
+    }
+
+    .error-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      min-height: 58px;
+      padding: 0 28px;
+
+      border-radius: 9px;
+      border: 2px solid #18343d;
+
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .error-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .error-button-primary {
+      color: #fff;
+      background: #2e7d5b;
+      border-color: #2e7d5b;
+    }
+
+    .error-button-primary:hover {
+      background: #25684b;
+      border-color: #25684b;
+    }
+
+    .error-button-secondary {
+      color: #18343d;
+      background: transparent;
+    }
+
+    .error-button-secondary:hover {
+      background: rgba(24, 52, 61, 0.05);
+    }
+
+    /* Visual 404 */
+
+    .error-visual {
+      position: relative;
+
+      min-height: 500px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .error-circle {
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      border: 1px solid rgba(53, 93, 105, 0.22);
+      border-radius: 50%;
+    }
+
+    .error-circle::before {
+      content: "";
+
+      position: absolute;
+      inset: 70px;
+
+      border: 1px solid rgba(53, 93, 105, 0.12);
+      border-radius: 50%;
+    }
+
+    .error-number-wrap {
+      position: relative;
+      z-index: 2;
+
+      text-align: center;
+    }
+
+    .error-number {
+      margin: 0;
+
+      font-size: clamp(150px, 17vw, 250px);
+      font-weight: 800;
+      line-height: 0.8;
+      letter-spacing: -0.08em;
+
+      color: #18343d;
+    }
+
+    .error-message {
+      margin: 45px auto 0;
+      max-width: 360px;
+
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+
+      color: #355d69;
+    }
+
+    .error-message::after {
+      content: "";
+
+      display: block;
+
+      width: 55px;
+      height: 2px;
+
+      margin: 22px auto 0;
+
+      background: #355d69;
+    }
+
+    /* Links úteis */
+
+    .error-links {
+      background: #fff;
+      border-top: 1px solid rgba(24, 52, 61, 0.08);
+      border-bottom: 1px solid rgba(24, 52, 61, 0.08);
+    }
+
+    .error-links-container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 38px 0 42px;
+    }
+
+    .error-links-title {
+      margin: 0 0 28px;
+
+      font-size: 20px;
+      color: #18343d;
+    }
+
+    .error-links-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 36px;
+    }
+
+    .error-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding-bottom: 12px;
+
+      border-bottom: 1px solid rgba(24, 52, 61, 0.16);
+
+      color: #18343d;
+
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .error-link:hover {
+      color: #2e7d5b;
+      border-color: #2e7d5b;
+    }
+
+    .error-link span {
+      font-size: 20px;
+    }
+
+    /* Footer simplificado */
+
+    .error-footer {
+      padding: 50px 0 30px;
+      background: #18343d;
+      color: #fff;
+    }
+
+    .error-footer-container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .error-footer-main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 60px;
+    }
+
+    .error-footer-brand {
+      max-width: 420px;
+    }
+
+    .error-footer-brand strong {
+      display: block;
+      margin-bottom: 8px;
+
+      font-size: 24px;
+    }
+
+    .error-footer-brand p {
+      margin: 0;
+
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.6;
+    }
+
+    .error-footer-contact {
+      max-width: 330px;
+    }
+
+    .error-footer-contact strong {
+      display: block;
+      margin-bottom: 8px;
+
+      font-size: 18px;
+    }
+
+    .error-footer-contact p {
+      margin: 0 0 20px;
+
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.5;
+    }
+
+    .error-footer-bottom {
+      margin-top: 45px;
+      padding-top: 24px;
+
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+      color: rgba(255, 255, 255, 0.65);
+
+      font-size: 13px;
+    }
+
+    /* Responsivo */
+
+    @media (max-width: 900px) {
+      .error-hero {
+        padding: 70px 0;
+      }
+
+      .error-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+
+      .error-visual {
+        min-height: 360px;
+      }
+
+      .error-circle {
+        width: 350px;
+        height: 350px;
+      }
+
+      .error-number {
+        font-size: 160px;
+      }
+
+      .error-links-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .error-hero {
+        min-height: auto;
+        padding: 55px 0 65px;
+      }
+
+      .error-container,
+      .error-links-container,
+      .error-footer-container {
+        width: min(100% - 32px, 1180px);
+      }
+
+      .error-title {
+        font-size: 52px;
+      }
+
+      .error-description {
+        font-size: 17px;
+      }
+
+      .error-actions {
+        flex-direction: column;
+      }
+
+      .error-button {
+        width: 100%;
+      }
+
+      .error-visual {
+        min-height: 300px;
+      }
+
+      .error-circle {
+        width: 280px;
+        height: 280px;
+      }
+
+      .error-circle::before {
+        inset: 40px;
+      }
+
+      .error-number {
+        font-size: 130px;
+      }
+
+      .error-message {
+        margin-top: 30px;
+        font-size: 11px;
+      }
+
+      .error-links-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .error-footer-main {
+        flex-direction: column;
+        gap: 35px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="error-page">
+
+    <section class="error-hero">
+      <div class="error-container">
+
+        <div class="error-content">
+
+          <p class="error-label">Erro 404</p>
+
+          <h1 class="error-title">
+            Página não<br>
+            encontrada.
+          </h1>
+
+          <p class="error-description">
+            O endereço que você tentou acessar não existe
+            ou pode ter sido alterado.
+          </p>
+
+          <p class="error-description">
+            Mas sem problemas, você pode voltar para a página
+            inicial ou falar comigo. Vamos encontrar o que você precisa.
+          </p>
+
+          <div class="error-actions">
+
+            <a
+              class="error-button error-button-primary"
+              href="/"
+            >
+              Voltar para o início
+              <span aria-hidden="true">→</span>
+            </a>
+
+            <a
+              class="error-button error-button-secondary"
+              href="https://api.whatsapp.com/send?phone=5511963417557&text=Ol%C3%A1%2C%20Filipe!%20Vim%20pelo%20site%20e%20gostaria%20de%20conversar."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Vamos conversar
+            </a>
+
+          </div>
+        </div>
+
+
+        <div class="error-visual" aria-hidden="true">
+
+          <div class="error-circle"></div>
+
+          <div class="error-number-wrap">
+
+            <p class="error-number">404</p>
+
+            <p class="error-message">
+              Estratégia sempre<br>
+              encontra um novo caminho.
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="error-links">
+
+      <div class="error-links-container">
+
+        <h2 class="error-links-title">
+          Talvez estes conteúdos ajudem:
+        </h2>
+
+        <div class="error-links-grid">
+
+          <a class="error-link" href="/#metodo">
+            Como trabalhamos
+            <span aria-hidden="true">→</span>
+          </a>
+
+          <a class="error-link" href="/#seo-geo">
+            SEO &amp; GEO
+            <span aria-hidden="true">→</span>
+          </a>
+
+          <a class="error-link" href="/#experiencia">
+            Casos e experiência
+            <span aria-hidden="true">→</span>
+          </a>
+
+          <a class="error-link" href="/#sobre">
+            Sobre a consultoria
+            <span aria-hidden="true">→</span>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <footer class="error-footer">
+
+      <div class="error-footer-container">
+
+        <div class="error-footer-main">
+
+          <div class="error-footer-brand">
+
+            <strong>Filipe Bueno</strong>
+
+            <p>
+              Consultoria em Marketing Digital
+            </p>
+
+            <p>
+              Estratégia, dados e experiência para transformar
+              presença digital em resultado de negócio.
+            </p>
+
+          </div>
+
+
+          <div class="error-footer-contact">
+
+            <strong>Vamos conversar?</strong>
+
+            <p>
+              Fale sobre seu projeto e descubra como posso ajudar.
+            </p>
+
+            <a
+              class="error-button error-button-primary"
+              href="https://api.whatsapp.com/send?phone=5511963417557&text=Ol%C3%A1%2C%20Filipe!%20Vim%20pelo%20site%20e%20gostaria%20de%20conversar."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Iniciar conversa
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="error-footer-bottom">
+          © 2026 Filipe Bueno. Todos os direitos reservados.
+        </div>
+
+      </div>
+
+    </footer>
+
+  </main>
+
+</body>
+</html>
