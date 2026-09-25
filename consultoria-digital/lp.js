@@ -2,11 +2,13 @@
 (() => {
   'use strict';
 
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyFW5pcob0YJeJW9hlKmA6VqR1fw8dPYSqbehsZzKz7Mrkf6u7Z84OekBCZCtBYfSzF/exec';
-  const CANONICAL = 'https://www.filipebuenoconsultoria.com.br/consultoria-digital/';
+  const ENDPOINT = '/api/lead';
+  const CANONICAL =
+    'https://www.filipebuenoconsultoria.com.br/consultoria-digital/';
 
   const ATTRIBUTION_KEY = 'fb.consultoria.attribution.v2';
   const SUCCESS_KEY = 'fb.consultoria.confirmed.v2';
+  const SUBMISSION_KEY = 'fb.consultoria.submission.v1';
   const TTL = 30 * 60 * 1000;
 
   const FAILURE =
@@ -52,9 +54,50 @@
     }
   }
 
-  /* =========================================================
-     ATRIBUIÇÃO DE CAMPANHA
-     ========================================================= */
+  function remove(key) {
+    try {
+      sessionStorage.removeItem(key);
+    } catch {
+      /* Formulário funciona sem storage. */
+    }
+  }
+
+  function createSubmissionId() {
+    if (
+      window.crypto &&
+      typeof window.crypto.randomUUID === 'function'
+    ) {
+      return window.crypto.randomUUID();
+    }
+
+    return (
+      Date.now().toString(36) +
+      '-' +
+      Math.random().toString(36).slice(2)
+    );
+  }
+
+  function getSubmissionId() {
+    const cached = read(SUBMISSION_KEY);
+
+    if (
+      cached &&
+      cached.id &&
+      cached.time &&
+      Date.now() - cached.time >= 0 &&
+      Date.now() - cached.time < TTL
+    ) {
+      return cached.id;
+    }
+
+    const submission = {
+      id: createSubmissionId(),
+      time: Date.now()
+    };
+
+    save(SUBMISSION_KEY, submission);
+    return submission.id;
+  }
 
   const query = new URLSearchParams(location.search);
   const cached = read(ATTRIBUTION_KEY);
@@ -68,45 +111,36 @@
     Date.now() - cached.time >= 0 &&
     Date.now() - cached.time < TTL
       ? cached
-      : {
-          time: Date.now(),
-          values: {}
-        };
+      : { time: Date.now(), values: {} };
 
   if (freshCampaign) {
-    // Uma nova campanha substitui a anterior, sem misturar atribuições.
     keys.forEach(key => {
       attribution.values[key] = (query.get(key) || '').slice(0, 500);
     });
   }
 
   keys.forEach(key => {
-    form.elements.namedItem(key).value = attribution.values[key] || '';
+    form.elements.namedItem(key).value =
+      attribution.values[key] || '';
   });
 
-  // A URL salva exclui parâmetros arbitrários e fragmentos
-  // que possam conter PII.
   const pageURL = new URL(CANONICAL);
 
   keys.forEach(key => {
     if (attribution.values[key]) {
-      pageURL.searchParams.set(key, attribution.values[key]);
+      pageURL.searchParams.set(
+        key,
+        attribution.values[key]
+      );
     }
   });
 
   form.elements.namedItem('page_url').value = pageURL.href;
-
   save(ATTRIBUTION_KEY, attribution);
-
-  /* =========================================================
-     DATALAYER / GTM
-     ========================================================= */
 
   window.dataLayer = window.dataLayer || [];
 
   function track(event) {
-    // Lista fixa: jamais incluir valores dos campos,
-    // URL da query ou FormData.
     window.dataLayer.push({
       event,
       lp_id: 'consultoria_digital',
@@ -115,7 +149,6 @@
     });
   }
 
-  // Reutiliza o contêiner existente.
   window.dataLayer.push({
     'gtm.start': Date.now(),
     event: 'gtm.js'
@@ -127,18 +160,15 @@
   gtm.async = true;
   gtm.src =
     'https://www.googletagmanager.com/gtm.js?id=GTM-KT8S9VXG';
-
   document.head.appendChild(gtm);
-
-  /* =========================================================
-     FORM START
-     ========================================================= */
 
   function start(event) {
     if (
       !started &&
       !confirmed &&
-      ['nome', 'whatsapp', 'necessidade'].includes(event.target.name)
+      ['nome', 'whatsapp', 'necessidade'].includes(
+        event.target.name
+      )
     ) {
       started = true;
       track('form_start');
@@ -149,12 +179,10 @@
   form.addEventListener('input', start);
   form.addEventListener('change', start);
 
-  /* =========================================================
-     ERROS DOS CAMPOS
-     ========================================================= */
-
   function error(field, message) {
-    document.getElementById(`${field.id}-error`).textContent = message;
+    document.getElementById(
+      `${field.id}-error`
+    ).textContent = message;
 
     if (message) {
       field.setAttribute('aria-invalid', 'true');
@@ -164,18 +192,12 @@
   }
 
   [nome, phone, need].forEach(field => {
-    field.addEventListener('input', () => error(field, ''));
+    field.addEventListener('input', () =>
+      error(field, '')
+    );
   });
 
-  /* =========================================================
-     MÁSCARA DO WHATSAPP
-     DDD + CELULAR = 11 DÍGITOS
-     Exemplo: (11) 99999-9999
-     ========================================================= */
-
   phone.addEventListener('input', () => {
-    // Remove qualquer caractere que não seja número
-    // e impede mais de 11 dígitos.
     const digits = phone.value
       .replace(/\D/g, '')
       .slice(0, 11);
@@ -185,7 +207,6 @@
       return;
     }
 
-    // DDD ainda incompleto.
     if (digits.length <= 2) {
       phone.value = `(${digits}`;
       return;
@@ -194,23 +215,18 @@
     const ddd = digits.slice(0, 2);
     const numero = digits.slice(2);
 
-    // Número ainda incompleto.
     if (numero.length <= 5) {
       phone.value = `(${ddd}) ${numero}`;
       return;
     }
 
-    // Formato final: (11) 99999-9999
     phone.value =
       `(${ddd}) ${numero.slice(0, 5)}-${numero.slice(5)}`;
   });
 
-  /* =========================================================
-     VALIDAÇÃO
-     ========================================================= */
-
   function validate() {
-    const phoneDigits = phone.value.replace(/\D/g, '');
+    const phoneDigits =
+      phone.value.replace(/\D/g, '');
 
     const messages = [
       [
@@ -234,22 +250,17 @@
       ]
     ];
 
-    messages.forEach(([field, message]) => {
-      error(field, message);
-    });
+    messages.forEach(([field, message]) =>
+      error(field, message)
+    );
 
-    const invalid = messages.find(([, message]) => message);
+    const invalid =
+      messages.find(([, message]) => message);
 
-    if (invalid) {
-      invalid[0].focus();
-    }
+    if (invalid) invalid[0].focus();
 
     return !invalid;
   }
-
-  /* =========================================================
-     SUCESSO
-     ========================================================= */
 
   function showSuccess(focus) {
     confirmed = true;
@@ -257,9 +268,7 @@
     status.textContent = '';
     success.hidden = false;
 
-    if (focus) {
-      success.focus();
-    }
+    if (focus) success.focus();
   }
 
   const previous = read(SUCCESS_KEY);
@@ -271,32 +280,22 @@
     showSuccess(false);
   }
 
-  /* Habilita o formulário somente após o JS estar carregado. */
   fields.disabled = false;
-
-  /* =========================================================
-     ENVIO DO LEAD
-     ========================================================= */
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
 
-    if (busy || confirmed) {
-      return;
-    }
+    if (busy || confirmed) return;
 
     status.textContent = '';
 
-    /* Honeypot anti-spam */
     if (form.elements.namedItem('website').value) {
       status.textContent = FAILURE;
       status.focus();
       return;
     }
 
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     if (navigator.onLine === false) {
       status.textContent = FAILURE;
@@ -307,33 +306,28 @@
     form.elements.namedItem('submitted_at').value =
       new Date().toISOString();
 
-    const body = new URLSearchParams(
-      new FormData(form)
-    );
+    const body =
+      new URLSearchParams(new FormData(form));
 
-    body.set(
-      'nome',
-      nome.value.trim()
-    );
-
-    /*
-      Envia apenas números para o Apps Script.
-      Exemplo:
-      (11) 99999-9999 → 11999999999
-    */
+    body.set('nome', nome.value.trim());
     body.set(
       'whatsapp',
       phone.value.replace(/\D/g, '')
     );
 
-    busy = true;
-    fields.disabled = true;
-
-    form.setAttribute(
-      'aria-busy',
-      'true'
+    /*
+     * O mesmo ID é reutilizado enquanto o envio não for
+     * confirmado. Isso permite repetir uma tentativa sem
+     * criar um segundo lead no D1.
+     */
+    body.set(
+      'submission_id',
+      getSubmissionId()
     );
 
+    busy = true;
+    fields.disabled = true;
+    form.setAttribute('aria-busy', 'true');
     button.textContent = 'Enviando…';
     status.textContent = 'Enviando…';
 
@@ -341,57 +335,41 @@
 
     const timeout = setTimeout(
       () => controller.abort(),
-      25000
+      15000
     );
 
     try {
-      /*
-        POST simples, sem preflight.
-
-        Nunca usar no-cors:
-        resposta opaca não confirma gravação.
-      */
       const response = await fetch(ENDPOINT, {
         method: 'POST',
         body,
-        mode: 'cors',
-        credentials: 'omit',
-        redirect: 'follow',
-        signal: controller.signal,
-        referrerPolicy: 'no-referrer'
+        credentials: 'same-origin',
+        signal: controller.signal
       });
 
-      if (
-        !response.ok ||
-        response.type === 'opaque'
-      ) {
+      if (!response.ok) {
         throw new Error(
-          'Unconfirmed response'
+          `Lead API HTTP ${response.status}`
         );
       }
 
       const result = await response.json();
 
       if (result.success !== true) {
-        throw new Error(
-          'Lead rejected'
-        );
+        throw new Error('Lead rejected');
       }
 
-      /*
-        O servidor confirmou a gravação.
-        Só agora consideramos conversão.
-      */
       save(SUCCESS_KEY, {
         time: Date.now()
       });
 
+      /*
+       * O lead já foi confirmado pelo D1.
+       * O próximo envio deverá receber um novo ID.
+       */
+      remove(SUBMISSION_KEY);
+
       showSuccess(true);
 
-      /*
-        generate_lead só dispara após
-        confirmação positiva do Apps Script.
-      */
       if (!leadEmitted) {
         leadEmitted = true;
         track('generate_lead');
@@ -399,28 +377,28 @@
 
       form.reset();
 
-    } catch {
+    } catch (error) {
+      console.error(
+        'Erro ao enviar lead:',
+        error
+      );
+
       status.textContent = FAILURE;
       status.focus();
 
       /*
-        Sem retry automático:
-        o servidor pode ter gravado antes
-        de uma eventual falha de rede.
-      */
+       * Não removemos SUBMISSION_KEY.
+       * Se o usuário tentar novamente, o mesmo ID será
+       * enviado e o D1 impedirá duplicidade.
+       */
 
     } finally {
       clearTimeout(timeout);
 
       busy = false;
       fields.disabled = confirmed;
-
-      form.removeAttribute(
-        'aria-busy'
-      );
-
-      button.textContent =
-        'Quero conversar';
+      form.removeAttribute('aria-busy');
+      button.textContent = 'Quero conversar';
     }
   });
 })();
