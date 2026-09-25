@@ -1,7 +1,4 @@
 export async function onRequestPost(context) {
-  const APPS_SCRIPT_URL =
-    'https://script.google.com/macros/s/AKfycbyFW5pcob0YJeJW9hlKmA6VqR1fw8dPYSqbehsZzKz7Mrkf6u7Z84OekBCZCtBYfSzF/exec';
-
   try {
     const formData = await context.request.formData();
 
@@ -13,17 +10,17 @@ export async function onRequestPost(context) {
       );
     }
 
-    const nome = String(formData.get('nome') || '').trim();
-    const whatsapp = String(formData.get('whatsapp') || '').replace(/\D/g, '');
-    const necessidade = String(formData.get('necessidade') || '').trim();
+    const nome = clean(formData.get('nome'), 100);
+    const whatsapp = String(formData.get('whatsapp') || '')
+      .replace(/\D/g, '')
+      .slice(0, 11);
+    const necessidade = clean(formData.get('necessidade'), 100);
 
-    // Validação também no servidor
+    // Validação obrigatória no servidor
     if (
       nome.length < 2 ||
-      nome.length > 100 ||
       !/^\d{11}$/.test(whatsapp) ||
-      !necessidade ||
-      necessidade.length > 100
+      !necessidade
     ) {
       return jsonResponse(
         { success: false, message: 'Dados inválidos.' },
@@ -31,57 +28,91 @@ export async function onRequestPost(context) {
       );
     }
 
-    // Garante que o Apps Script receba apenas os 11 dígitos
-    formData.set('whatsapp', whatsapp);
+    const submissionId =
+      clean(formData.get('submission_id'), 100) ||
+      crypto.randomUUID();
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-
-    let response;
+    const utmSource = clean(formData.get('utm_source'), 500);
+    const utmMedium = clean(formData.get('utm_medium'), 500);
+    const utmCampaign = clean(formData.get('utm_campaign'), 500);
+    const utmContent = clean(formData.get('utm_content'), 500);
+    const utmTerm = clean(formData.get('utm_term'), 500);
+    const gclid = clean(formData.get('gclid'), 500);
+    const pageUrl = clean(formData.get('page_url'), 2000);
 
     try {
-      response = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: formData,
-        redirect: 'follow',
-        signal: controller.signal
-      });
-    } finally {
-      clearTimeout(timeout);
-    }
+      await context.env.DB
+        .prepare(`
+          INSERT INTO leads (
+            submission_id,
+            nome,
+            whatsapp,
+            necessidade,
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            utm_content,
+            utm_term,
+            gclid,
+            page_url
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `)
+        .bind(
+          submissionId,
+          nome,
+          whatsapp,
+          necessidade,
+          utmSource,
+          utmMedium,
+          utmCampaign,
+          utmContent,
+          utmTerm,
+          gclid,
+          pageUrl
+        )
+        .run();
 
-    if (!response.ok) {
-      throw new Error(`Apps Script HTTP ${response.status}`);
-    }
+    } catch (error) {
+      // submission_id já existente = mesma submissão repetida.
+      if (
+        String(error?.message || '')
+          .toLowerCase()
+          .includes('unique')
+      ) {
+        return jsonResponse({
+          success: true,
+          duplicate: true,
+          message: 'Lead já recebido.'
+        });
+      }
 
-    const result = await response.json();
-
-    if (result.success !== true) {
-      return jsonResponse(
-        {
-          success: false,
-          message: 'O servidor não confirmou o recebimento.'
-        },
-        502
-      );
+      throw error;
     }
 
     return jsonResponse({
       success: true,
+      duplicate: false,
       message: 'Lead recebido com sucesso.'
     });
 
   } catch (error) {
-    console.error('Erro ao processar lead:', error);
+    console.error('Erro ao registrar lead no D1:', error);
 
     return jsonResponse(
       {
         success: false,
         message: 'Não foi possível registrar o lead.'
       },
-      502
+      500
     );
   }
+}
+
+function clean(value, maxLength) {
+  return String(value || '')
+    .trim()
+    .slice(0, maxLength);
 }
 
 function jsonResponse(data, status = 200) {
