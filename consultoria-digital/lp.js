@@ -310,6 +310,7 @@
       new URLSearchParams(new FormData(form));
 
     body.set('nome', nome.value.trim());
+
     body.set(
       'whatsapp',
       phone.value.replace(/\D/g, '')
