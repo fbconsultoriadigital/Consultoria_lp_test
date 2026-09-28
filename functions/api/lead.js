@@ -11,10 +11,17 @@ export async function onRequestPost(context) {
     }
 
     const nome = clean(formData.get('nome'), 100);
-    const whatsapp = String(formData.get('whatsapp') || '')
+
+    const whatsapp = String(
+      formData.get('whatsapp') || ''
+    )
       .replace(/\D/g, '')
       .slice(0, 11);
-    const necessidade = clean(formData.get('necessidade'), 100);
+
+    const necessidade = clean(
+      formData.get('necessidade'),
+      100
+    );
 
     // Validação obrigatória no servidor
     if (
@@ -32,13 +39,40 @@ export async function onRequestPost(context) {
       clean(formData.get('submission_id'), 100) ||
       crypto.randomUUID();
 
-    const utmSource = clean(formData.get('utm_source'), 500);
-    const utmMedium = clean(formData.get('utm_medium'), 500);
-    const utmCampaign = clean(formData.get('utm_campaign'), 500);
-    const utmContent = clean(formData.get('utm_content'), 500);
-    const utmTerm = clean(formData.get('utm_term'), 500);
-    const gclid = clean(formData.get('gclid'), 500);
-    const pageUrl = clean(formData.get('page_url'), 2000);
+    const utmSource = clean(
+      formData.get('utm_source'),
+      500
+    );
+
+    const utmMedium = clean(
+      formData.get('utm_medium'),
+      500
+    );
+
+    const utmCampaign = clean(
+      formData.get('utm_campaign'),
+      500
+    );
+
+    const utmContent = clean(
+      formData.get('utm_content'),
+      500
+    );
+
+    const utmTerm = clean(
+      formData.get('utm_term'),
+      500
+    );
+
+    const gclid = clean(
+      formData.get('gclid'),
+      500
+    );
+
+    const pageUrl = clean(
+      formData.get('page_url'),
+      2000
+    );
 
     try {
       await context.env.DB
@@ -74,7 +108,10 @@ export async function onRequestPost(context) {
         .run();
 
     } catch (error) {
-      // submission_id já existente = mesma submissão repetida.
+      /*
+       * submission_id já existente =
+       * mesma submissão repetida.
+       */
       if (
         String(error?.message || '')
           .toLowerCase()
@@ -97,7 +134,10 @@ export async function onRequestPost(context) {
     });
 
   } catch (error) {
-    console.error('Erro ao registrar lead no D1:', error);
+    console.error(
+      'Erro ao registrar lead no D1:',
+      error
+    );
 
     return jsonResponse(
       {
@@ -116,11 +156,15 @@ function clean(value, maxLength) {
 }
 
 function jsonResponse(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Cache-Control': 'no-store'
+  return new Response(
+    JSON.stringify(data),
+    {
+      status,
+      headers: {
+        'Content-Type':
+          'application/json; charset=UTF-8',
+        'Cache-Control': 'no-store'
+      }
     }
-  });
+  );
 }
