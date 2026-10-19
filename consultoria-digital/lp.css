@@ -564,3 +564,43 @@ footer span {
 /* Fotografia profissional: recorte visual, sem alterar a imagem. */
 .portrait { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 58%; border-radius: var(--radius); max-width: 500px; }
 .portrait-about { max-width: 380px; }
+
+
+/* Rodapé - Política de Privacidade */
+
+footer .container {
+  align-items: center;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-right a {
+  color: #c3d3d7;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.footer-right a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  footer .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer-right {
+    justify-content: flex-start;
+    gap: 12px 20px;
+  }
+}
