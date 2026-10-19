@@ -578,6 +578,7 @@ footer .container {
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 24px;
+  column-gap: 24px;
 }
 
 .footer-right a {
