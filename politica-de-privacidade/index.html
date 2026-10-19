@@ -1,3 +1,601 @@
-<html>
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Política de Privacidade | Filipe Bueno Consultoria</title>
+  <meta
+    name="description"
+    content="Conheça a Política de Privacidade da Filipe Bueno Consultoria e saiba como seus dados pessoais são tratados."
+  >
+  <meta name="robots" content="index, follow">
+
+  <link
+    rel="canonical"
+    href="https://www.filipebuenoconsultoria.com.br/politica-de-privacidade/"
+  >
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    :root {
+      --privacy-ink: #17313a;
+      --privacy-muted: #637780;
+      --privacy-accent: #285f73;
+      --privacy-background: #f5f8f9;
+      --privacy-border: #e1e9ec;
+      --privacy-white: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--privacy-ink);
+      background: var(--privacy-background);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+    }
+
+    .privacy-container {
+      width: min(100% - 40px, 860px);
+      margin-inline: auto;
+    }
+
+    .privacy-header {
+      background: var(--privacy-white);
+      border-bottom: 1px solid var(--privacy-border);
+    }
+
+    .privacy-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 82px;
+    }
+
+    .privacy-brand {
+      color: var(--privacy-ink);
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .privacy-back {
+      color: var(--privacy-accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .privacy-back:hover,
+    .privacy-content a:hover {
+      text-decoration: underline;
+    }
+
+    .privacy-hero {
+      padding: 70px 0 48px;
+      text-align: center;
+    }
+
+    .privacy-eyebrow {
+      margin: 0 0 12px;
+      color: var(--privacy-accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    .privacy-hero h1 {
+      margin: 0;
+      color: var(--privacy-ink);
+      font-size: clamp(32px, 5vw, 46px);
+      line-height: 1.18;
+      letter-spacing: -1.5px;
+    }
+
+    .privacy-subtitle {
+      margin: 16px 0 8px;
+      color: var(--privacy-muted);
+      font-size: 16px;
+    }
+
+    .privacy-date {
+      margin: 0;
+      color: var(--privacy-muted);
+      font-size: 13px;
+    }
+
+    .privacy-content {
+      margin-bottom: 72px;
+      padding: 52px 58px;
+      background: var(--privacy-white);
+      border: 1px solid var(--privacy-border);
+      border-radius: 16px;
+      box-shadow: 0 12px 36px rgba(23, 49, 58, 0.04);
+    }
+
+    .privacy-content section + section {
+      margin-top: 38px;
+      padding-top: 30px;
+      border-top: 1px solid var(--privacy-border);
+    }
+
+    .privacy-content h2 {
+      margin: 0 0 15px;
+      color: var(--privacy-ink);
+      font-size: 21px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+    }
+
+    .privacy-content p {
+      margin: 0 0 15px;
+      color: #43565e;
+      font-size: 15px;
+    }
+
+    .privacy-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .privacy-content ul {
+      margin: 10px 0 18px;
+      padding-left: 23px;
+      color: #43565e;
+      font-size: 15px;
+    }
+
+    .privacy-content li {
+      padding-left: 4px;
+      margin-bottom: 9px;
+    }
+
+    .privacy-content li::marker {
+      color: var(--privacy-accent);
+    }
+
+    .privacy-content a {
+      color: var(--privacy-accent);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .privacy-footer {
+      padding: 28px 20px;
+      border-top: 1px solid var(--privacy-border);
+      background: var(--privacy-white);
+      text-align: center;
+    }
+
+    .privacy-footer p {
+      margin: 0 0 8px;
+      color: var(--privacy-muted);
+      font-size: 13px;
+    }
+
+    .privacy-footer a {
+      color: var(--privacy-accent);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--privacy-accent);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .privacy-container {
+        width: min(100% - 32px, 860px);
+      }
+
+      .privacy-header-inner {
+        min-height: 70px;
+      }
+
+      .privacy-brand {
+        font-size: 17px;
+      }
+
+      .privacy-back {
+        font-size: 12px;
+      }
+
+      .privacy-hero {
+        padding: 46px 0 34px;
+      }
+
+      .privacy-content {
+        padding: 28px 22px;
+        border-radius: 12px;
+        margin-bottom: 44px;
+      }
+
+      .privacy-content h2 {
+        font-size: 19px;
+      }
+
+      .privacy-content p,
+      .privacy-content ul {
+        font-size: 14px;
+      }
+
+      .privacy-content section + section {
+        margin-top: 28px;
+        padding-top: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="privacy-header">
+    <div class="privacy-container privacy-header-inner">
+      <a
+        class="privacy-brand"
+        href="https://www.filipebuenoconsultoria.com.br/"
+        aria-label="Filipe Bueno Consultoria - Página inicial"
+      >
+        Filipe Bueno
+      </a>
+
+      <a class="privacy-back" href="/">
+        &larr; Voltar ao site
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <div class="privacy-container">
+      <div class="privacy-hero">
+        <p class="privacy-eyebrow">Transparência e proteção de dados</p>
+        <h1>Política de Privacidade</h1>
+        <p class="privacy-subtitle">Filipe Bueno Consultoria</p>
+        <p class="privacy-date">
+          Última atualização: 19 de outubro de 2026
+        </p>
+      </div>
+
+      <article class="privacy-content">
+
+        <section>
+          <h2>1. Nosso compromisso com a privacidade</h2>
+
+          <p>
+            A Filipe Bueno Consultoria respeita a privacidade das pessoas
+            que acessam seus canais digitais e entram em contato para
+            conhecer seus serviços.
+          </p>
+
+          <p>
+            Esta Política de Privacidade explica como os dados pessoais
+            são coletados, utilizados, armazenados e compartilhados,
+            em conformidade com a Lei Geral de Proteção de Dados
+            Pessoais (Lei nº 13.709/2018).
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Responsável pelo tratamento dos dados</h2>
+
+          <p>
+            O responsável pelo tratamento dos dados pessoais é
+            Filipe Bueno, profissional responsável pela
+            Filipe Bueno Consultoria.
+          </p>
+
+          <p>
+            Para dúvidas ou solicitações relacionadas à privacidade,
+            entre em contato pelo e-mail:
+          </p>
+
+          <p>
+            <a href="mailto:filipebuenoconsultoria@gmail.com">
+              filipebuenoconsultoria@gmail.com
+            </a>
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Quais dados coletamos</h2>
+
+          <p>
+            Dependendo da forma de interação, podemos coletar:
+          </p>
+
+          <ul>
+            <li>
+              Nome e informações de contato, como telefone e e-mail.
+            </li>
+            <li>
+              Informações fornecidas voluntariamente nos formulários.
+            </li>
+            <li>
+              Objetivos de marketing e perfil profissional informados
+              pelos interessados.
+            </li>
+            <li>
+              Informações técnicas de navegação, como identificadores
+              de cookies, páginas acessadas, eventos de interação e
+              dados técnicos do dispositivo.
+            </li>
+          </ul>
+
+          <p>
+            Os dados coletados variam conforme o canal utilizado.
+          </p>
+        </section>
+
+        <section>
+          <h2>4. Como utilizamos os dados</h2>
+
+          <p>
+            Utilizamos os dados pessoais para:
+          </p>
+
+          <ul>
+            <li>Receber e responder solicitações de contato.</li>
+            <li>
+              Compreender as necessidades comerciais dos interessados.
+            </li>
+            <li>
+              Apresentar serviços de marketing digital relacionados
+              às solicitações recebidas.
+            </li>
+            <li>
+              Entrar em contato por telefone, e-mail ou WhatsApp.
+            </li>
+            <li>
+              Analisar o desempenho do site e das campanhas.
+            </li>
+            <li>
+              Cumprir obrigações legais e exercer direitos,
+              quando necessário.
+            </li>
+          </ul>
+
+          <p>
+            O envio de uma solicitação de contato não implica
+            autorização automática para inclusão em listas
+            de publicidade recorrente.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Bases legais</h2>
+
+          <p>
+            O tratamento dos dados poderá ocorrer com fundamento
+            nas bases legais previstas na LGPD, conforme a
+            finalidade e as circunstâncias de cada operação.
+          </p>
+
+          <p>Entre elas estão:</p>
+
+          <ul>
+            <li>
+              Procedimentos preliminares relacionados à contratação,
+              quando solicitados pelo titular.
+            </li>
+            <li>
+              Legítimo interesse, quando aplicável e respeitados
+              os direitos e expectativas dos titulares.
+            </li>
+            <li>
+              Consentimento, quando necessário, especialmente para
+              determinadas tecnologias de rastreamento.
+            </li>
+            <li>
+              Cumprimento de obrigações legais ou regulatórias.
+            </li>
+            <li>Exercício regular de direitos.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>6. Formulários do Facebook e Instagram</h2>
+
+          <p>
+            A Filipe Bueno Consultoria poderá receber dados pessoais
+            por meio de formulários instantâneos disponibilizados
+            nas plataformas Facebook e Instagram, da Meta.
+          </p>
+
+          <p>
+            Esses dados serão utilizados para analisar a solicitação
+            enviada e realizar o contato comercial correspondente.
+          </p>
+
+          <p>
+            O gerenciamento dos contatos poderá ocorrer diretamente
+            nas ferramentas da Meta, observadas também as políticas
+            de privacidade aplicáveis às plataformas.
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Cookies e tecnologias de rastreamento</h2>
+
+          <p>
+            O site utiliza tecnologias de navegação, segurança
+            e mensuração, incluindo serviços da Cloudflare e
+            ferramentas do Google, como Google Analytics 4
+            e Google Tag Manager.
+          </p>
+
+          <p>
+            Essas tecnologias podem ser utilizadas para compreender
+            a utilização das páginas, mensurar interações e
+            avaliar o desempenho de campanhas.
+          </p>
+
+          <p>
+            Cookies estritamente necessários podem ser utilizados
+            para garantir a segurança e o funcionamento do site.
+          </p>
+
+          <p>
+            Cookies analíticos e publicitários não essenciais
+            estarão sujeitos às preferências de privacidade
+            do visitante, conforme os controles disponibilizados
+            no site.
+          </p>
+
+          <p>
+            O visitante poderá aceitar, rejeitar ou configurar
+            essas categorias por meio do mecanismo de
+            preferências de cookies.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Compartilhamento de dados</h2>
+
+          <p>
+            Os dados poderão ser tratados por fornecedores de
+            tecnologia necessários ao funcionamento dos canais
+            digitais, incluindo serviços de hospedagem,
+            armazenamento, análise de tráfego e plataformas
+            de publicidade.
+          </p>
+
+          <p>
+            Entre os fornecedores utilizados estão Cloudflare,
+            Google e Meta, conforme os serviços efetivamente
+            envolvidos em cada operação.
+          </p>
+
+          <p>
+            O tratamento realizado por essas plataformas também
+            está sujeito às respectivas condições e políticas
+            de privacidade.
+          </p>
+        </section>
+
+        <section>
+          <h2>9. Transferências internacionais</h2>
+
+          <p>
+            A utilização de fornecedores globais de tecnologia
+            pode envolver tratamento ou transferência
+            internacional de dados pessoais.
+          </p>
+
+          <p>
+            Quando aplicável, essas operações deverão observar
+            os requisitos previstos na legislação brasileira
+            de proteção de dados.
+          </p>
+        </section>
+
+        <section>
+          <h2>10. Armazenamento e conservação</h2>
+
+          <p>
+            Os dados pessoais serão conservados pelo período
+            necessário às finalidades informadas, considerando
+            a natureza da solicitação, a existência de
+            relacionamento comercial e eventuais
+            obrigações legais.
+          </p>
+
+          <p>
+            Quando deixarem de ser necessários, os dados serão
+            eliminados ou terão seu tratamento adequado às
+            hipóteses legalmente permitidas.
+          </p>
+        </section>
+
+        <section>
+          <h2>11. Segurança das informações</h2>
+
+          <p>
+            A Filipe Bueno Consultoria busca adotar medidas
+            técnicas e administrativas proporcionais à sua
+            operação para proteger os dados pessoais contra
+            acessos não autorizados, perda, alteração
+            ou divulgação indevida.
+          </p>
+
+          <p>
+            Nenhum ambiente digital está completamente livre de riscos.
+          </p>
+        </section>
+
+        <section>
+          <h2>12. Direitos dos titulares</h2>
+
+          <p>
+            Nos termos da LGPD, os titulares podem solicitar,
+            conforme aplicável:
+          </p>
+
+          <ul>
+            <li>Confirmação da existência de tratamento.</li>
+            <li>Acesso aos dados pessoais.</li>
+            <li>
+              Correção de dados incompletos, inexatos
+              ou desatualizados.
+            </li>
+            <li>
+              Eliminação, anonimização ou bloqueio nas
+              hipóteses previstas em lei.
+            </li>
+            <li>Informações sobre compartilhamento.</li>
+            <li>Revogação do consentimento.</li>
+            <li>
+              Informações sobre a possibilidade de não
+              fornecer consentimento e suas consequências.
+            </li>
+            <li>
+              Outros direitos previstos na legislação aplicável.
+            </li>
+          </ul>
+
+          <p>
+            As solicitações podem ser encaminhadas para:
+          </p>
+
+          <p>
+            <a href="mailto:filipebuenoconsultoria@gmail.com">
+              filipebuenoconsultoria@gmail.com
+            </a>
+          </p>
+        </section>
+
+        <section>
+          <h2>13. Atualizações desta política</h2>
+
+          <p>
+            Esta Política de Privacidade poderá ser atualizada
+            para refletir mudanças nos serviços, ferramentas
+            utilizadas ou requisitos legais.
+          </p>
+
+          <p>
+            A versão vigente permanecerá disponível nos canais
+            digitais da Filipe Bueno Consultoria.
+          </p>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="privacy-footer">
+    <p>© 2026 Filipe Bueno Consultoria.</p>
+    <a href="/">Voltar ao site institucional</a>
+  </footer>
+
+</body>
 </html>
